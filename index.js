@@ -1,4 +1,6 @@
+const express = require('express')
 const { ApolloServer, gql } = require('apollo-server')
+const { registerServer } = require('apollo-server-express')
 
 const projects = [
   {
@@ -29,6 +31,12 @@ const resolvers = {
 }
 
 const server = new ApolloServer({ typeDefs, resolvers })
+
+const app = express()
+
+const cors = { origin: 'http://localhost:3000' }
+
+registerServer({ server, app, cors })
 
 server.listen().then(({ url }) => {
   console.log(`🚀 Server ready at ${url}`)
